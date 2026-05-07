@@ -44,7 +44,7 @@ public class SprintLogApp {
         printDivider("긴 학습");
         for (int i = 0; i < titles.length; i++) {
             if (minutes[i] >100) {
-                printLogitem(i+1, titles, minutes);
+                printLogitem(i, titles, minutes);
             }
         }
     }
@@ -53,7 +53,7 @@ public class SprintLogApp {
         printDivider("복습");
         for (int i = 0; i < titles.length; i++) {
             if (minutes[i] < 60) {
-                printLogitem(i+1, titles, minutes);
+                printLogitem(i, titles, minutes);
             }
         }
         int total = calculateTotalMins(minutes);
@@ -75,7 +75,7 @@ public class SprintLogApp {
             if (!publicFlags[i]) {
                 continue;
             }
-            printLogitem(i+1, titles, minutes);
+            printLogitem(i, titles, minutes);
         }
     }
 
@@ -83,7 +83,7 @@ public class SprintLogApp {
         printDivider("전체");
 
         for (int i = 0; i < titles.length; i++) {
-            printLogitem(i+1, titles, minutes);
+            printLogitem(i, titles, minutes);
         }
     }
 
