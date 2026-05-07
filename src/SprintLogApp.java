@@ -1,5 +1,3 @@
-import java.awt.*;
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class SprintLogApp {
@@ -40,7 +38,7 @@ public class SprintLogApp {
         }
     }
 
-    private static void printLongStudyLogs(String[] titles, int[] minutes) {
+    static void printLongStudyLogs(String[] titles, int[] minutes) {
         printDivider("긴 학습");
         for (int i = 0; i < titles.length; i++) {
             if (minutes[i] >100) {
@@ -49,7 +47,7 @@ public class SprintLogApp {
         }
     }
 
-    private static void printReminder(String[] titles, int[] minutes) {
+    static void printReminder(String[] titles, int[] minutes) {
         printDivider("복습");
         for (int i = 0; i < titles.length; i++) {
             if (minutes[i] < 60) {
@@ -61,7 +59,7 @@ public class SprintLogApp {
         System.out.println("Avg: " + avg +"mins");
     }
 
-    private static int calculateTotalMins(int[] minutes) {
+    static int calculateTotalMins(int[] minutes) {
         int total = 0;
         for (int m: minutes) {
             total += m;
@@ -69,7 +67,7 @@ public class SprintLogApp {
         return total;
     }
 
-    private static void printPublicLogs(String[] titles, boolean[] publicFlags, int[] minutes) {
+    static void printPublicLogs(String[] titles, boolean[] publicFlags, int[] minutes) {
         printDivider("공개");
         for (int i = 0; i < titles.length; i++) {
             if (!publicFlags[i]) {
@@ -79,7 +77,7 @@ public class SprintLogApp {
         }
     }
 
-    private static void printAllLogs(String[] titles, int[] minutes) {
+    static void printAllLogs(String[] titles, int[] minutes) {
         printDivider("전체");
 
         for (int i = 0; i < titles.length; i++) {
