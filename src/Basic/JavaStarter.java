@@ -1,3 +1,5 @@
+package Basic;
+
 public class JavaStarter {
 
     public static void main(String[] args) {

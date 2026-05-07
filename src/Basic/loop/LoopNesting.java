@@ -1,4 +1,4 @@
-package loop;
+package Basic.loop;
 
 public class LoopNesting {
 

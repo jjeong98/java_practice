@@ -1,4 +1,4 @@
-package constate;
+package Basic.constate;
 
 public class SwitchExample {
 
