@@ -1,34 +1,34 @@
-package oop.accessmodifier;
+package oop.static_final;
 
 public class LearningLog {
+    // 상수는 대문자로 작성하는 것이 관례.
+    // 상수는 고정된 불변의 값을 의미.
+    // 모든 객체가 하나의 값을 공유.
+    private static final int REVIEW_THRESHOLD_MINUTES = 60;
     
-    //접근 제한자를 활용한 정보 은닉과 캡슐화 ( info hiding, encapsulation)
-    // 1. 필드에 private 접근 제한을 붙여 외부에서 직접 접근이 허용 불가.
+    //LeaningLog를 얼마나 생성했는지 확인한 객체
+    private static int totalCreateCount = 0;
+    
+    private final long id;
     private String titles;
     private int minutes;
     private boolean publicLog;
     
-    LearningLog() {
-        System.out.println("기본 생성자 호출");
-    }
     
     LearningLog(String titles, int minutes) {
+        
         this(titles, minutes, true);
     }
     
     LearningLog(String titles, int minutes, boolean publicLog) {
-        
+        totalCreateCount++;
+        this.id = totalCreateCount;
         this.titles = normalizeTitle(titles);
         this.minutes = minutes;
         this.publicLog = publicLog;
     }
     
-    
-    // private 접근 제한을 지정하니 제대로 된 값도 수정이 불가능.
-    // 필드값을 대신 받아서 할당, 값을 리턴하는 메서드로 값을 보호.
-    // 이 때 사용하는 메서드 getter (값 얻을 때)/ setter (값 설정 할 때)
-    // set + 필드 이름이 관례.
-    
+  
     public void setMinutes(int minutes) {
         if  (minutes <= 0) {
             System.out.println("잘못");
@@ -43,7 +43,7 @@ public class LearningLog {
         this.titles = normalizeTitle(newTitles);
     }
     
-    // 이 메서드는 굳이 외부에서 알 필요가 없어서 private로 설정해서 이 클래스에서만 사용 할 수 있도록 지정.
+   
     private String normalizeTitle(String newTitles) {
         if (newTitles == null && newTitles.isEmpty()) {
         return "No title";
@@ -60,20 +60,18 @@ public class LearningLog {
     
     
     void printSummary() {
-        //3항 연산식: 조건식의 결과에 따라 변수에 대입할 값을 다르게 할 수 있는 문법
-        // 논리형 조건식 ? 좌항:우할
-        // 논리형 조건식이 true라면 좌항의 값, false라면 우항의 값.
-        String visibility = publicLog ? "OPEN" : "HIDE";
+        String visibility = publicLog ? " OPEN" : " HIDE";
         
-        System.out.println(titles + " - " + minutes + "Mins" + visibility);
+        System.out.println("#" +  id + ". " + this.titles + " - " + this.minutes + " Mins" + visibility);
     }
 
     boolean needReview() {
-        return minutes < 60;
+        return minutes < REVIEW_THRESHOLD_MINUTES;
     }
     
-    //외부로 필드값을 getter 메서드
-    //get + 필드이름으로 지어주는 것이 관례.boolean 타입의 값을 돌려주는 getter는 is로 시작.
+    public static int getTotalCreateCount() {
+        return totalCreateCount;
+    }
     
     public String getTitles() {
         return titles;
