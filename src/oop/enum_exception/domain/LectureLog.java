@@ -9,7 +9,7 @@ public class LectureLog extends LearningActivity implements Reviewable, Shareabl
 	private String instructorName;
 	
 	public LectureLog(String titles, int minutes, Visibility visibility, String instructorName) {
-		super(titles, minutes, Visibility.PUBLIC, ActivityCategory.LECTURE);
+		super(titles, minutes, visibility, ActivityCategory.LECTURE);
 		this.instructorName = normalizedInstructorName(instructorName);
 		
 	}

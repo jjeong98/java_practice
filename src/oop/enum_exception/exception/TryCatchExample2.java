@@ -6,29 +6,33 @@ import java.util.Scanner;
 public class TryCatchExample2 {
 	public static void main(String[] args) {
 		
+		Scanner sc = null;
 		try {
-			Scanner sc = new Scanner(System.in);
+			sc = new Scanner(System.in);
 			int[] arr = new int[5];
 			
 			System.out.println("정수 :");
 			int n = sc.nextInt();
 			
-			int result = 100/n;
-			System.out.println( arr[result] );
+			int result = 100 / n;
+			
+			System.out.println(arr[result]);
 			
 			String s = null;
 			s.equals("메롱");
+			
 		} catch (InputMismatchException | ArithmeticException e) {
 			System.out.println("입력값 잘못");
-		}  catch (ArrayIndexOutOfBoundsException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println("Out of Index");
 		} catch (NullPointerException e) {
 			System.out.println("Null X");
 		} catch (Exception e) {
 			System.out.println("Exception");
+			e.printStackTrace();
 		} finally {
-			System.out.println( "Blah");
-			
+			System.out.println("Blah");
+			sc.close();
 		}
 		
 		

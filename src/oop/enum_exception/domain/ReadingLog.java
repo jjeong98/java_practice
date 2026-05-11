@@ -8,7 +8,7 @@ public class ReadingLog extends LearningActivity implements Reviewable, Shareabl
 	private String bookTitle;
 	
 	public ReadingLog(String titles, int minutes, Visibility visibility, String bookTitle) {
-		super(titles, minutes, Visibility.PUBLIC);
+		super(titles, minutes, visibility, ActivityCategory.READING);
 		this.bookTitle = bookTitle;
 	}
 	
@@ -16,12 +16,12 @@ public class ReadingLog extends LearningActivity implements Reviewable, Shareabl
 	
 	@Override
 	public boolean needReview() {
-		return getMinutes() < 45;
+		return getCategory().isShortStudy(getMinutes());
 	}
 	
 	@Override
 	public void printReviewTarget() {
-		System.out.println("복습" + getTitles() + " (" + getMinutes() + "분)");
+		System.out.println("[복습 권장] " + getTitles() + " (" + bookTitle + ")");
 	}
 	
 	@Override
