@@ -28,7 +28,7 @@ public class TryCatchExample2 {
 			System.out.println("Exception");
 		} finally {
 			System.out.println( "Blah");
-			sc.close();
+			
 		}
 		
 		

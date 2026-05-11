@@ -1,5 +1,7 @@
 package oop.enum_exception.domain;
 
+import oop.enum_exception.exception.InvalidActivityException;
+
 public abstract class LearningActivity {
     
     private static int totalCreateCount = 0;
@@ -20,35 +22,46 @@ public abstract class LearningActivity {
 //    }
     
     public LearningActivity(String titles, int minutes, Visibility visibility, ActivityCategory category) {
+        validateTitle(titles);
+        validateMinutes(minutes);
         totalCreateCount++;
         this.id = totalCreateCount;
-        this.titles = normalizeTitle(titles);
+        this.titles = titles.trim(); //좌우 공백 제거.
         this.minutes = minutes;
         this.visibility = visibility;
         this.category = category;
     }
     
-  
-    public void setMinutes(int minutes) {
-        if  (minutes <= 0) {
-            System.out.println("잘못");
-            return;
+    public static int getTotalCreatedCount() {
+        return totalCreateCount;
+    }
+    
+    
+    public void extendStudy(int additionalMinutes) {
+        if  (additionalMinutes <= 0) {
+            throw new InvalidActivityException(
+                    "Additional minutes must be positive" + additionalMinutes);
         }
         this.minutes += minutes;
     }
 
     
     public void changeTitles(String newTitles) {
-        
-        this.titles = normalizeTitle(newTitles);
+        validateTitle(newTitles);
+        this.titles = newTitles;
     }
     
    
-    private String normalizeTitle(String newTitles) {
-        if (newTitles == null && newTitles.isEmpty()) {
-        return "No title";
+    private void validateTitle(String newTitles) {
+        if (newTitles == null || newTitles.isEmpty()) {
+            throw new InvalidActivityException("비울 수 없음.");
         }
-        return newTitles;
+    }
+    
+    private void validateMinutes(int newMinutes) {
+        if (newMinutes <= 0) {
+            throw new InvalidActivityException("1분 이상" + newMinutes);
+        }
     }
     
     public void openToPublic() {
@@ -92,4 +105,5 @@ public abstract class LearningActivity {
     public ActivityCategory getCategory() {
         return category;
     }
+    
 }
