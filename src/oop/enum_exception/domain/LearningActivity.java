@@ -1,4 +1,4 @@
-package oop.abstract_interface.domain;
+package oop.enum_exception.domain;
 
 public abstract class LearningActivity {
     
@@ -8,28 +8,31 @@ public abstract class LearningActivity {
     public boolean needReview;
     private String titles;
     private int minutes;
-    private boolean publicActivity;
+    private Visibility visibility;
+    private final ActivityCategory category;
     
     
     
-    public LearningActivity(String titles, int minutes) {
-        
-        this(titles, minutes, true);
-    }
     
-    public LearningActivity(String titles, int minutes, boolean publicActivity) {
+//    public LearningActivity(String titles, int minutes) {
+//
+//        this(titles, minutes, Visibility.PUBLIC);
+//    }
+    
+    public LearningActivity(String titles, int minutes, Visibility visibility, ActivityCategory category) {
         totalCreateCount++;
         this.id = totalCreateCount;
         this.titles = normalizeTitle(titles);
         this.minutes = minutes;
-        this.publicActivity = publicActivity;
+        this.visibility = visibility;
+        this.category = category;
     }
     
   
     public void setMinutes(int minutes) {
         if  (minutes <= 0) {
             System.out.println("잘못");
-            return;//   void 메서드에서 return 메서드는 강종.
+            return;
         }
         this.minutes += minutes;
     }
@@ -49,10 +52,10 @@ public abstract class LearningActivity {
     }
     
     public void openToPublic() {
-        this.publicActivity = true;
+        this.visibility = Visibility.PUBLIC;
     }
     public void hideFromPublic() {
-        this.publicActivity = false;
+        this.visibility = Visibility.PRIVATE;
     }
     
     public abstract  String getActivityType();
@@ -70,8 +73,8 @@ public abstract class LearningActivity {
         return minutes;
     }
 
-    public boolean ispublicActivity() {
-        return publicActivity;
+    public Visibility getVisibility() {
+        return visibility;
     }
     
     public long getId() {
@@ -79,6 +82,14 @@ public abstract class LearningActivity {
     }
     
     public String getVisibilityText() {
-        return publicActivity ? "OPEN" : "CLOSE";
+        return this.visibility.getLabel();
+    }
+    
+    public boolean isPublicActivity() {
+        return visibility == Visibility.PUBLIC;
+    }
+    
+    public ActivityCategory getCategory() {
+        return category;
     }
 }

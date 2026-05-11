@@ -6,6 +6,9 @@ import oop.abstract_interface.domain.PracticeLog;
 import oop.abstract_interface.domain.ReadingLog;
 import oop.abstract_interface.policy.Reviewable;
 import oop.abstract_interface.policy.Shareable;
+import oop.abstract_interface.printer.ActivityPrinter;
+import oop.abstract_interface.printer.CompactActivityPrinter;
+import oop.abstract_interface.printer.ConsoleActivityPrinter;
 
 public class SprintLogApp {
 	public static void main(String[] args) {
@@ -20,10 +23,11 @@ public class SprintLogApp {
 		//LearningActivity act = new LearningActivity("test", 10);
 		
 		LearningActivity[] activities = {javaLecture, gitPractice, oopPractice, oopBook};
+		ActivityPrinter printer = new CompactActivityPrinter();
 		
-		System.out.println("=== 학습 활동 목록 ===");
+		System.out.println("=== 간단 학습 활동 목록 ===");
 		for (int i = 0; i < activities.length; i++) {
-			activities[i].printSummary();
+			printer.print(activities[i]);
 		}
 	
 		// 다형성이랑 부모 타입의 변수에 자시 타입ㅢ 객체가 들어올 수 있는 것 = 상속 관계에서만 발생

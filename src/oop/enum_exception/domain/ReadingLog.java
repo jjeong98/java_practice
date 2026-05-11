@@ -1,16 +1,14 @@
-package oop.abstract_interface.domain;
+package oop.enum_exception.domain;
 
-import oop.abstract_interface.policy.Reviewable;
-import oop.abstract_interface.policy.Shareable;
-
-import java.io.Serializable;
+import oop.enum_exception.policy.Reviewable;
+import oop.enum_exception.policy.Shareable;
 
 public class ReadingLog extends LearningActivity implements Reviewable, Shareable {
 	
 	private String bookTitle;
 	
-	public ReadingLog(String titles, int minutes, boolean publicActivity, String bookTitle) {
-		super(titles, minutes, publicActivity);
+	public ReadingLog(String titles, int minutes, Visibility visibility, String bookTitle) {
+		super(titles, minutes, Visibility.PUBLIC);
 		this.bookTitle = bookTitle;
 	}
 	
@@ -28,7 +26,7 @@ public class ReadingLog extends LearningActivity implements Reviewable, Shareabl
 	
 	@Override
 	public boolean canShare() {
-		return ispublicActivity();
+		return isPublicActivity();
 	}
 	
 	@Override

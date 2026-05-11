@@ -1,16 +1,14 @@
-package oop.abstract_interface.domain;
+package oop.enum_exception.domain;
 
-import oop.abstract_interface.policy.Reviewable;
-import oop.abstract_interface.policy.Shareable;
-
-import java.io.Serializable;
+import oop.enum_exception.policy.Reviewable;
+import oop.enum_exception.policy.Shareable;
 
 public class PracticeLog extends LearningActivity implements Reviewable, Shareable {
 	
 	private int completionRate;
 	
-	public PracticeLog(String titles, int minutes, boolean publicActivity, int completionRate) {
-		super(titles, minutes, publicActivity);
+	public PracticeLog(String titles, int minutes, Visibility visibility, int completionRate) {
+		super(titles, minutes, visibility, ActivityCategory.PRACTICE);
 		this.completionRate = normalizeCompletionRate(completionRate);
 	}
 	
@@ -30,7 +28,7 @@ public class PracticeLog extends LearningActivity implements Reviewable, Shareab
 	
 	@Override
 	public boolean needReview() {
-		return getMinutes() < 60;
+		return getCategory().isShortStudy(getMinutes()) || completionRate <70;
 	}
 	
 	@Override
@@ -40,7 +38,7 @@ public class PracticeLog extends LearningActivity implements Reviewable, Shareab
 	
 	@Override
 	public boolean canShare() {
-		return ispublicActivity();
+		return isPublicActivity();
 	}
 	
 	@Override
