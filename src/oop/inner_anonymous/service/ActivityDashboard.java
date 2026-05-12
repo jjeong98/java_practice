@@ -1,6 +1,7 @@
 package oop.inner_anonymous.service;
 
 import oop.inner_anonymous.domain.LearningActivity;
+import oop.inner_anonymous.printer.ActivityPrinter;
 
 import java.util.Locale;
 
@@ -70,7 +71,7 @@ public class ActivityDashboard {
 			return totalCount;
 		}
 		
-		public int getLecturerCount() {
+		public int getLectureCount() {
 			return lecturerCount;
 		}
 		
@@ -81,6 +82,41 @@ public class ActivityDashboard {
 		public int getReadingCount() {
 			return readingCount;
 		}
+		/**
+		 * 보고서 출력기
+		 * 외부 클래스(ActivityDashboard)가 가지고 있는 activities 배열에 접근 해야 하기 때문에
+		 * static을 붙이지 않은 멤버 내부 클래서로 선언
+		 */
+		
+		public class ReportBuilder {
+			
+			private final ActivityPrinter printer;
+			
+			public ReportBuilder(ActivityPrinter printer) {
+				if (printer == null) {
+					throw new IllegalArgumentException("printer cannot be null");
+				}
+				this.printer = printer;
+			}
+			
+			public void  print() {
+				Summary summary = summarize();  // 외부 클래스의 summarize() 호출
+				System.out.println("── 활동 수: 총 " + summary.getTotalCount()
+						+ "개 (강의 " + summary.getLectureCount()
+						+ " / 실습 " + summary.getPracticeCount()
+						+ " / 독서 " + summary.getReadingCount() + ")");
+				
+				for (LearningActivity activity : activities) {  // 외부 클래스의 activities 접근
+					printer.print(activity);
+				}
+			}
+			
+		}
+		
+		
+		
+		
+		
 	}
 	
 	
