@@ -1,4 +1,4 @@
-package oop.collection;
+package oop.collection.set;
 
 import java.util.*;
 
