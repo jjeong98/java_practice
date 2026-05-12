@@ -3,8 +3,6 @@ package oop.inner_anonymous.service;
 import oop.inner_anonymous.domain.LearningActivity;
 import oop.inner_anonymous.printer.ActivityPrinter;
 
-import java.util.Locale;
-
 public class ActivityDashboard {
 	
 	private final LearningActivity[] activities;
@@ -14,13 +12,13 @@ public class ActivityDashboard {
 	}
 	
 	/**
-	 * 카테고리별 활동 수를 세어 정리를 만들자
-	 * @return
+	 * 카테고리별 활동 수를 세어 Summary를 만들자.
+	 *
 	 */
 	public Summary summarize() {
-		//로컬 클래스 선언: summarize() 밖에서 사용할 수없음.
 		
-		class  Counter {
+		// 로컬 클래스 선언: summarize() 밖에서는 사용할 수 없다.
+		class Counter {
 			private int totalCount;
 			private int lectureCount;
 			private int practiceCount;
@@ -39,7 +37,7 @@ public class ActivityDashboard {
 			Summary toSummary() {
 				return new Summary(totalCount, lectureCount, practiceCount, readingCount);
 			}
-		} //end Counter Class
+		} // end Counter class
 		
 		Counter counter = new Counter();
 		for (LearningActivity activity : activities) {
@@ -47,22 +45,19 @@ public class ActivityDashboard {
 		}
 		return counter.toSummary();
 		
-		
-		
-		
 	} // end summarize()
 	
-	// 메모리 누수를 방지하고 static을 붙이는 이유 - 독립성을 가지기 위해사 (내부클래스)
+	// 내부 클래스에 static을 붙이는 이유는 메모리 누수를 방지하고 독립성을 가지기 위해서 입니다.
 	public static class Summary {
 		
 		private final int totalCount;
-		private final int lecturerCount;
+		private final int lectureCount;
 		private final int practiceCount;
 		private final int readingCount;
 		
-		public Summary(int totalCount, int lecturerCount, int practiceCount, int readingCount) {
+		public Summary(int totalCount, int lectureCount, int practiceCount, int readingCount) {
 			this.totalCount = totalCount;
-			this.lecturerCount = lecturerCount;
+			this.lectureCount = lectureCount;
 			this.practiceCount = practiceCount;
 			this.readingCount = readingCount;
 		}
@@ -72,7 +67,7 @@ public class ActivityDashboard {
 		}
 		
 		public int getLectureCount() {
-			return lecturerCount;
+			return lectureCount;
 		}
 		
 		public int getPracticeCount() {
@@ -82,43 +77,37 @@ public class ActivityDashboard {
 		public int getReadingCount() {
 			return readingCount;
 		}
-		/**
-		 * 보고서 출력기
-		 * 외부 클래스(ActivityDashboard)가 가지고 있는 activities 배열에 접근 해야 하기 때문에
-		 * static을 붙이지 않은 멤버 내부 클래서로 선언
-		 */
+	}
+	
+	/**
+	 * 보고서 출력기
+	 * 외부 클래스(ActivityDashboard)가 가지고 있는 activities 배열에 접근해야 하기 때문에
+	 * static을 붙이지 않은 멤버 내부 클래스로 선언.
+	 */
+	public class ReportBuilder {
 		
-		public class ReportBuilder {
-			
-			private final ActivityPrinter printer;
-			
-			public ReportBuilder(ActivityPrinter printer) {
-				if (printer == null) {
-					throw new IllegalArgumentException("printer cannot be null");
-				}
-				this.printer = printer;
+		private final ActivityPrinter printer;
+		
+		public ReportBuilder(ActivityPrinter printer) {
+			if (printer == null) {
+				throw new IllegalArgumentException("출력 도구는 null일 수 없습니다.");
 			}
+			this.printer = printer;
+		}
+		
+		public void print() {
+			Summary summary = summarize();  // 외부 클래스의 summarize() 호출
+			System.out.println("── 활동 수: 총 " + summary.getTotalCount()
+					+ "개 (강의 " + summary.getLectureCount()
+					+ " / 실습 " + summary.getPracticeCount()
+					+ " / 독서 " + summary.getReadingCount() + ")");
 			
-			public void  print() {
-				Summary summary = summarize();  // 외부 클래스의 summarize() 호출
-				System.out.println("── 활동 수: 총 " + summary.getTotalCount()
-						+ "개 (강의 " + summary.getLectureCount()
-						+ " / 실습 " + summary.getPracticeCount()
-						+ " / 독서 " + summary.getReadingCount() + ")");
-				
-				for (LearningActivity activity : activities) {  // 외부 클래스의 activities 접근
-					printer.print(activity);
-				}
+			for (LearningActivity activity : activities) {  // 외부 클래스의 activities 접근
+				printer.print(activity);
 			}
-			
 		}
 		
 		
-		
-		
-		
 	}
-	
-	
 	
 }
