@@ -138,6 +138,7 @@ public class ActivityDashboard {
 	
 	
 	
+	
 	// 태그를 필터링
 	public List<LearningActivity> filterByTag(String tag) {
 		List<LearningActivity> result = new ArrayList<>();

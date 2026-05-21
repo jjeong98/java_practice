@@ -1,19 +1,24 @@
 package oop.stream.service;
 
+import oop.stream.domain.ActivityCategory;
 import oop.stream.domain.LearningActivity;
 import oop.stream.printer.ActivityPrinter;
 
+import java.util.*;
+
 public class ActivityDashboard {
 	
-	private final LearningActivity[] activities;
+	private final List<LearningActivity> activities;
 	
-	public ActivityDashboard(LearningActivity[] activities) {
+	public ActivityDashboard(List<LearningActivity> activities) {
+		if (activities == null) {
+			throw new IllegalArgumentException("학습 활동 목록은 null일 수 없습니다.");
+		}
 		this.activities = activities;
 	}
 	
 	/**
 	 * 카테고리별 활동 수를 세어 Summary를 만들자.
-	 *
 	 */
 	public Summary summarize() {
 		
@@ -106,8 +111,55 @@ public class ActivityDashboard {
 				printer.print(activity);
 			}
 		}
-		
-		
+	}
+	
+	// 카테고리별 그룹화 -------------------------------------------------
+	// 카테고리별로 활동(Log)을 그룹화해서 Map으로 반환한다.
+	public Map<ActivityCategory, List<LearningActivity>> groupByCategory() {
+		Map<ActivityCategory, List<LearningActivity>> result = new TreeMap<>(); // HashMap -> TreeMap으로 변경: 카테고리(enum) 선언 순서대로 정렬되어 출력이 일관된다.
+		for (LearningActivity activity : activities) {
+			ActivityCategory cat = activity.getCategory();
+			
+			// 해당 카테고리가 Map에 없으면 빈 List를 먼저 만들어서 put한다.
+			if (!result.containsKey(cat)) {
+				result.put(cat, new ArrayList<>());
+			}
+			
+			// 카테고리별 리스트를 얻어온 후 리스트에 활동 객체를 add 하자.
+			List<LearningActivity> list = result.get(cat);
+			list.add(activity);
+		}
+		return result;
+	}
+	
+	// 모든 활동에서 태그를 모아 알파벳순 정렬 Set으로 반환한다.
+	public Set<String> getSortedTagSet() {
+		Set<String> tags = new TreeSet<>();
+		for (LearningActivity activity : activities) {
+			tags.addAll(activity.getTags());
+		}
+		return Collections.unmodifiableSet(tags);
+	}
+	
+	
+	// 태그 필터링-------------------------------------------------------
+	
+	public List<LearningActivity> filterByTag(String tag) {
+		List<LearningActivity> result = new ArrayList<>();
+		for (LearningActivity activity : activities) {
+			if (activity.hasTag(tag)) {
+				result.add(activity);
+			}
+		}
+		return Collections.unmodifiableList(result);
 	}
 	
 }
+
+
+
+
+
+
+
+
